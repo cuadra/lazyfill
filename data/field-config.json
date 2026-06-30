@@ -1,0 +1,173 @@
+[
+  {
+    "dataKey": "email",
+    "matchers": [
+      { "attr": "type",         "pattern": "^email$" },
+      { "attr": "autocomplete", "pattern": "^email$" },
+      { "attr": "name",         "pattern": "e.?mail" },
+      { "attr": "id",           "pattern": "e.?mail" },
+      { "attr": "placeholder",  "pattern": "e.?mail" }
+    ]
+  },
+  {
+    "dataKey": "password",
+    "matchers": [
+      { "attr": "type", "pattern": "^password$" }
+    ]
+  },
+  {
+    "dataKey": "phone",
+    "matchers": [
+      { "attr": "type",         "pattern": "^tel$" },
+      { "attr": "autocomplete", "pattern": "^tel$" },
+      { "attr": "name",         "pattern": "phone|mobile|cel" },
+      { "attr": "id",           "pattern": "phone|mobile|cel" },
+      { "attr": "placeholder",  "pattern": "phone|mobile" }
+    ]
+  },
+  {
+    "dataKey": "date",
+    "matchers": [
+      { "attr": "type",         "pattern": "^date$" },
+      { "attr": "autocomplete", "pattern": "bday" },
+      { "attr": "name",         "pattern": "birth|\\bdob\\b|birthday" },
+      { "attr": "id",           "pattern": "birth|\\bdob\\b|birthday" },
+      { "attr": "placeholder",  "pattern": "birth|dob|birthday" }
+    ]
+  },
+  {
+    "dataKey": "firstName",
+    "matchers": [
+      { "attr": "autocomplete", "pattern": "given-name" },
+      { "attr": "name",         "pattern": "first.?name|fname|given" },
+      { "attr": "id",           "pattern": "first.?name|fname|given" },
+      { "attr": "placeholder",  "pattern": "first.?name|given name" }
+    ]
+  },
+  {
+    "dataKey": "lastName",
+    "matchers": [
+      { "attr": "autocomplete", "pattern": "family-name" },
+      { "attr": "name",         "pattern": "last.?name|lname|family|surname" },
+      { "attr": "id",           "pattern": "last.?name|lname|family|surname" },
+      { "attr": "placeholder",  "pattern": "last.?name|family name|surname" }
+    ]
+  },
+  {
+    "dataKey": "address",
+    "matchers": [
+      { "attr": "autocomplete", "pattern": "address-line1|street-address" },
+      { "attr": "name",         "pattern": "address|street|\\baddr\\b" },
+      { "attr": "id",           "pattern": "address|street|\\baddr\\b" },
+      { "attr": "placeholder",  "pattern": "address|street" }
+    ]
+  },
+  {
+    "dataKey": "city",
+    "matchers": [
+      { "attr": "autocomplete", "pattern": "address-level2" },
+      { "attr": "name",         "pattern": "\\bcity\\b|\\btown\\b" },
+      { "attr": "id",           "pattern": "\\bcity\\b|\\btown\\b" },
+      { "attr": "placeholder",  "pattern": "city|town" }
+    ]
+  },
+  {
+    "dataKey": "state",
+    "matchers": [
+      { "attr": "autocomplete", "pattern": "address-level1" },
+      { "attr": "name",         "pattern": "\\bstate\\b|province|region" },
+      { "attr": "id",           "pattern": "\\bstate\\b|province|region" },
+      { "attr": "placeholder",  "pattern": "state|province|region" }
+    ]
+  },
+  {
+    "dataKey": "zip",
+    "matchers": [
+      { "attr": "autocomplete", "pattern": "postal-code" },
+      { "attr": "name",         "pattern": "zip|postal" },
+      { "attr": "id",           "pattern": "zip|postal" },
+      { "attr": "placeholder",  "pattern": "zip|postal" }
+    ]
+  },
+  {
+    "dataKey": "country",
+    "matchers": [
+      { "attr": "autocomplete", "pattern": "^country" },
+      { "attr": "name",         "pattern": "\\bcountry\\b" },
+      { "attr": "id",           "pattern": "\\bcountry\\b" },
+      { "attr": "placeholder",  "pattern": "country" }
+    ]
+  },
+  {
+    "dataKey": "company",
+    "matchers": [
+      { "attr": "autocomplete", "pattern": "^organization$" },
+      { "attr": "name",         "pattern": "company|organization|\\borg\\b|business" },
+      { "attr": "id",           "pattern": "company|organization|\\borg\\b|business" },
+      { "attr": "placeholder",  "pattern": "company|organization|business" }
+    ]
+  },
+  {
+    "dataKey": "username",
+    "matchers": [
+      { "attr": "autocomplete", "pattern": "^username$" },
+      { "attr": "name",         "pattern": "user.?name" },
+      { "attr": "id",           "pattern": "user.?name" },
+      { "attr": "placeholder",  "pattern": "username" }
+    ]
+  },
+  {
+    "dataKey": "prescriberNPI",
+    "matchers": [
+      { "attr": "name", "pattern": "npi" },
+      { "attr": "id",   "pattern": "npi" }
+    ]
+  },
+  {
+    "dataKey": "prescriberTaxId",
+    "matchers": [
+      { "attr": "name", "pattern": "tax.?id" },
+      { "attr": "id",   "pattern": "tax.?id" }
+    ]
+  },
+  {
+    "dataKey": "practiceName",
+    "matchers": [
+      { "attr": "name", "pattern": "practice.?name" },
+      { "attr": "id",   "pattern": "practice.?name" }
+    ]
+  },
+  {
+    "dataKey": "nextTreatmentDate",
+    "matchers": [
+      { "attr": "name", "pattern": "next.?treatment|treatment.?date" },
+      { "attr": "id",   "pattern": "next.?treatment|treatment.?date" }
+    ]
+  },
+  {
+    "dataKey": "diagnosisCode",
+    "matchers": [
+      { "attr": "name", "pattern": "diagnosis.?code" },
+      { "attr": "id",   "pattern": "diagnosis.?code" }
+    ]
+  },
+  {
+    "dataKey": "stateLicenseNumber",
+    "matchers": [
+      { "attr": "name", "pattern": "license.?num|state.?license" },
+      { "attr": "id",   "pattern": "license.?num|state.?license" }
+    ]
+  },
+  {
+    "dataKey": "checkbox",
+    "matchers": [
+      { "attr": "type", "pattern": "^checkbox$" }
+    ]
+  },
+  {
+    "dataKey": "radioIndex",
+    "matchers": [
+      { "attr": "type", "pattern": "^radio$" }
+    ]
+  }
+]

@@ -9,18 +9,17 @@ This is a **Chrome extension (Manifest V3)** that auto-fills form fields on any 
 ## Architecture
 
 ```
-auto-complete-form/
-├── manifest.json          # MV3 extension config — permissions, content scripts, icons
-├── background.js          # Service worker — receives messages from popup, injects content script
-├── popup/
-│   ├── popup.html         # Extension popup UI (triggered by icon click)
-│   └── popup.js           # Sends fill command to background → content script
+lazyfill/
+├── manifest.json          # MV3 extension config — permissions, service worker, web-accessible resources
+├── background.js          # Service worker — listens for icon click, injects content script
 ├── content/
 │   └── content.js         # Injected into active tab — finds and fills all visible fields
 └── data/
     ├── test-data.json     # ← SINGLE SOURCE OF TRUTH for all fill values (edit this)
     └── field-config.json  # ← Field type matching rules and selector hints (edit this)
 ```
+
+There is no popup. The extension triggers directly on icon click via `chrome.action.onClicked`.
 
 ### Data files (primary editing targets)
 
@@ -47,12 +46,14 @@ auto-complete-form/
 
 **`data/field-config.json`** — Rules that map field attributes (name, id, placeholder, type) to data keys. Each rule has a priority list of attribute matchers (regex strings) and a `dataKey` pointing into `test-data.json`. Adding a new rule here is how you target a previously unmatched field.
 
-### Message flow
+### Trigger flow
 
-1. User clicks icon → `popup.js` sends `{ action: "fillForm" }` to `background.js`
-2. `background.js` uses `chrome.scripting.executeScript` to inject `content.js` into the active tab
+1. User clicks the extension icon → `chrome.action.onClicked` fires in `background.js`
+2. `background.js` calls `chrome.scripting.executeScript` to inject `content.js` into the active tab
 3. `content.js` loads `field-config.json` and `test-data.json` via `chrome.runtime.getURL` + `fetch`
 4. For each visible, enabled, non-hidden form field: match against field-config rules → fill with the mapped data value
+
+`chrome.action.onClicked` only fires when the action has **no** `default_popup` set. If a popup is ever added back, the click event stops firing — use `chrome.runtime.onMessage` from the popup instead.
 
 ### Field type handling in `content.js`
 
@@ -62,7 +63,7 @@ auto-complete-form/
 | `input[type=password]` | Same as text |
 | `input[type=date]` | Set `.value` to ISO date string (`YYYY-MM-DD`) |
 | `input[type=checkbox]` | Set `.checked = data[key]` (boolean) |
-| `input[type=radio]` | Check the nth radio in the group (index from `data.radioIndex`) |
+| `input[type=radio]` | Yes/No groups (detected by value or label text matching `/^(yes\|no)$/i`): always select the "No" radio. All other groups: check the nth radio (index from `data.radioIndex`, default 0). |
 | `select` | Set `.value` or fall back to setting `selectedIndex` |
 | `textarea` | `.value = data[key]` |
 
@@ -80,7 +81,7 @@ Manifest V3 service workers do not persist — do not store state in `background
 ## Manifest V3 requirements
 
 - `"manifest_version": 3`
-- Permissions needed: `"activeTab"`, `"scripting"`, `"storage"` (if saving options)
+- Permissions needed: `"activeTab"`, `"scripting"` (add `"tabs"` only if you need `chrome.tabs.query`; add `"storage"` if saving user options)
 - Content scripts should be injected programmatically via `chrome.scripting.executeScript` rather than declared in `manifest.json`, so they only run on demand
 - Use `chrome.runtime.getURL("data/test-data.json")` to load JSON data files from inside the extension; these files must be listed under `"web_accessible_resources"` in `manifest.json`
 

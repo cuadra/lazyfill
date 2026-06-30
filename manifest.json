@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "LazyFill",
+  "description": "Auto-fills form fields on any web page with one click.",
+  "version": "1.0.0",
+  "permissions": ["activeTab", "scripting"],
+  "action": {},
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["data/test-data.json", "data/field-config.json"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

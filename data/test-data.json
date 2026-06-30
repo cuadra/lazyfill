@@ -1,0 +1,23 @@
+{
+  "firstName": "test",
+  "lastName": "test",
+  "email": "test@test.com",
+  "phone": "5558675309",
+  "address": "123 Main St",
+  "city": "Springfield",
+  "state": "IL",
+  "zip": "62701",
+  "country": "United States",
+  "company": "Acme Corp",
+  "username": "janedoe42",
+  "password": "TestPass123!",
+  "date": "1/15/1990",
+  "checkbox": true,
+  "radioIndex": 0,
+  "prescriberNPI": "1234567890",
+  "prescriberTaxId": "123456789",
+  "practiceName": "Acme Medical Group",
+  "stateLicenseNumber": "LIC123456",
+  "diagnosisCode": "Z00.00",
+  "nextTreatmentDate": "12/1/2026"
+}
