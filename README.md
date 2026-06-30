@@ -1,5 +1,7 @@
 # LazyFill
 
+<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/f072d2e1-237a-46c9-bc68-33dfec129f9f" />
+
 A Chrome extension that fills in every visible form field on the current page with a single click. Useful for testing multi-step forms — navigate between steps yourself, click the icon on each step to fill the fields.
 
 ## What it does
