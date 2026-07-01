@@ -28,6 +28,8 @@ No build step required.
 
 Navigate to any page with a form and click the LazyFill icon in the toolbar. Fields are filled immediately — no popup, no confirmation.
 
+If new fields appear after a selection or entry (e.g. a conditional field revealed by a dropdown or radio choice), just click the icon again to fill them too.
+
 After editing any file, click the **Refresh** icon on the LazyFill card in `chrome://extensions` to reload the extension.
 
 ## Customising fill values
@@ -36,10 +38,10 @@ Open `data/test-data.json` and replace the placeholder values with your own:
 
 ```json
 {
-  "firstName": "Jane",
-  "lastName": "Doe",
-  "email": "jane.doe@example.com",
-  "phone": "555-867-5309",
+  "firstName": "test",
+  "lastName": "test",
+  "email": "test@test.com",
+  "phone": "5558675309",
   "address": "123 Main St",
   "city": "Springfield",
   "state": "IL",
@@ -48,9 +50,15 @@ Open `data/test-data.json` and replace the placeholder values with your own:
   "company": "Acme Corp",
   "username": "janedoe42",
   "password": "TestPass123!",
-  "date": "1990-01-15",
+  "date": "1/15/1990",
   "checkbox": true,
-  "radioIndex": 0
+  "radioIndex": 0,
+  "prescriberNPI": "1234567890",
+  "prescriberTaxId": "123456789",
+  "practiceName": "Acme Medical Group",
+  "stateLicenseNumber": "LIC123456",
+  "diagnosisCode": "Z00.00",
+  "nextTreatmentDate": "12/1/2026"
 }
 ```
 
