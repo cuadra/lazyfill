@@ -16,7 +16,8 @@ lazyfill/
 │   └── content.js         # Injected into active tab — finds and fills all visible fields
 └── data/
     ├── test-data.json     # ← SINGLE SOURCE OF TRUTH for all fill values (edit this)
-    └── field-config.json  # ← Field type matching rules and selector hints (edit this)
+    ├── field-config.json  # ← Field type matching rules and selector hints (edit this)
+    └── dropdown-config.json # ← CSS selectors for custom (non-<select>) dropdown triggers and options
 ```
 
 There is no popup. The extension triggers directly on icon click via `chrome.action.onClicked`.
@@ -66,6 +67,9 @@ There is no popup. The extension triggers directly on icon click via `chrome.act
 | `input[type=radio]` | Yes/No groups (detected by value or label text matching `/^(yes\|no)$/i`): always select the "No" radio. All other groups: check the nth radio (index from `data.radioIndex`, default 0). |
 | `select` | Set `.value` or fall back to setting `selectedIndex` |
 | `textarea` | `.value = data[key]` |
+| Custom dropdown (div/button trigger + div/li options) | Triggers found via `dropdown-config.json` `triggerSelectors`. Open with a pointer/mouse gesture, click the option matching `data[key]` by text or `data-value` (typing into searchable comboboxes if needed), else fall back to the nth option (`data.dropdownIndex`). Processed sequentially after native fields. |
+
+Custom dropdown triggers are matched against the same `field-config.json` rules, with `type` reported as `custom-dropdown` and an extra `label` matcher attr (aria-label / label text). `name`/`id`/`placeholder` fall back to `data-*` attributes and any backing `<input>`. Native inputs inside a detected trigger are skipped by the normal fill loop.
 
 Native React/Vue/Angular change detection requires dispatching synthetic events after setting `.value` — always fire `new Event('input', { bubbles: true })` and `new Event('change', { bubbles: true })`.
 

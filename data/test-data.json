@@ -14,6 +14,7 @@
   "date": "1/15/1990",
   "checkbox": true,
   "radioIndex": 0,
+  "dropdownIndex": 0,
   "prescriberNPI": "1234567890",
   "prescriberTaxId": "123456789",
   "practiceName": "Acme Medical Group",

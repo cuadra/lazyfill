@@ -23,7 +23,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["data/test-data.json", "data/field-config.json"],
+      "resources": ["data/test-data.json", "data/field-config.json", "data/dropdown-config.json"],
       "matches": ["<all_urls>"]
     }
   ]

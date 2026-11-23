@@ -11,6 +11,7 @@ A Chrome extension that fills in every visible form field on the current page wi
 - Fires synthetic `input` and `change` events after filling so React, Vue, and Angular forms register the values
 - For yes/no radio groups, always selects **No**
 - For all other radio groups, selects the first option by default
+- Detects custom dropdowns built from `div`s/buttons instead of a native `<select>` (ARIA comboboxes, `aria-haspopup="listbox"` triggers), opens them, and clicks the matching option
 
 The fill values live in `data/test-data.json` — edit that file to use your own data.
 
@@ -53,6 +54,7 @@ Open `data/test-data.json` and replace the placeholder values with your own:
   "date": "1/15/1990",
   "checkbox": true,
   "radioIndex": 0,
+  "dropdownIndex": 0,
   "prescriberNPI": "1234567890",
   "prescriberTaxId": "123456789",
   "practiceName": "Acme Medical Group",
@@ -65,3 +67,15 @@ Open `data/test-data.json` and replace the placeholder values with your own:
 ## Targeting a specific site
 
 If a field on a particular site isn't being matched, add a rule to `data/field-config.json`. Each rule has a `dataKey` pointing into `test-data.json` and a list of attribute matchers (regex strings). No changes to `content.js` are needed.
+
+## Custom dropdowns
+
+Dropdowns that are not a native `<select>` (a `div` or `button` that opens a list of `div`/`li` options) are handled after the regular fields, one at a time:
+
+1. The trigger is matched to a data key with the same `field-config.json` rules. Since these triggers rarely have a `name`, the rules also see the trigger's `aria-label` / label text (matcher attr `label`), `data-testid`, and the `name` of any backing hidden `<input>`.
+2. The dropdown is opened and the option whose text or `data-value` matches the data value is clicked. Searchable comboboxes get the value typed in first if no option matches.
+3. If no rule or no option matches, the option at `dropdownIndex` (default `0`, the first one) is selected.
+
+Which elements count as dropdown triggers and options is controlled by CSS selector lists in `data/dropdown-config.json`. If a site uses a dropdown without ARIA attributes, add its trigger selector (e.g. `.my-select__control`) to `triggerSelectors` and, if needed, its option selector to `optionSelectors`.
+
+`test/custom-dropdowns.html` is a manual test page covering the supported variants.

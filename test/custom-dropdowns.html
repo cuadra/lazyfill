@@ -1,0 +1,111 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>LazyFill — custom dropdown test page</title>
+<!--
+  Manual test page for non-native dropdowns. Open it in Chrome (enable
+  "Allow access to file URLs" for LazyFill) and click the extension icon.
+  Expected results are listed next to each control.
+-->
+<style>
+  body { font: 14px system-ui, sans-serif; max-width: 560px; margin: 2rem auto; }
+  .row { margin-bottom: 1.2rem; position: relative; }
+  .trigger { border: 1px solid #888; padding: 6px 10px; min-width: 200px; display: inline-block; cursor: pointer; background: #fff; }
+  .menu { border: 1px solid #888; background: #fff; position: absolute; z-index: 10; margin: 0; padding: 0; list-style: none; min-width: 200px; }
+  .menu > * { padding: 4px 10px; cursor: pointer; }
+  .menu > *:hover { background: #def; }
+  [hidden] { display: none !important; }
+  small { color: #666; display: block; }
+</style>
+
+<div class="row">
+  <label for="fname">First name</label>
+  <input id="fname" name="firstName">
+</div>
+
+<div class="row">
+  <label id="state-label">State</label><br>
+  <button type="button" id="dd1" class="trigger" role="combobox" aria-labelledby="state-label"
+          aria-haspopup="listbox" aria-expanded="false" aria-controls="dd1-list">Select…</button>
+  <ul id="dd1-list" class="menu" role="listbox" hidden>
+    <li role="option" data-value="AL">Alabama</li>
+    <li role="option" data-value="IL">Illinois</li>
+    <li role="option" data-value="NY">New York</li>
+  </ul>
+  <small>Click-to-toggle ARIA combobox, matched by label → expects Illinois (data-value "IL")</small>
+</div>
+
+<div class="row">
+  <label>Shipping destination</label><br>
+  <div id="dd2" class="trigger" role="combobox" tabindex="0" aria-haspopup="listbox" aria-expanded="false">Select…</div>
+  <input type="hidden" name="country" id="dd2-value">
+  <small>Opens on mousedown, menu portalled to &lt;body&gt;, matched by hidden input name → expects United States</small>
+</div>
+
+<div class="row">
+  <label>Favourite colour</label><br>
+  <div id="dd3" class="trigger" aria-haspopup="listbox">Select…</div>
+  <div id="dd3-list" class="menu" hidden>
+    <div class="dd-option">Red</div>
+    <div class="dd-option">Green</div>
+    <div class="dd-option">Blue</div>
+  </div>
+  <small>Plain divs with no roles, no matching rule → expects first option (dropdownIndex 0): Red</small>
+</div>
+
+<div class="row">
+  <label>Where do you live?</label><br>
+  <input id="dd4" class="trigger" role="combobox" aria-label="Country" aria-expanded="false" aria-autocomplete="list" placeholder="Type to search">
+  <ul id="dd4-list" class="menu" role="listbox" hidden></ul>
+  <small>Searchable combobox, options only appear after typing → expects United States</small>
+</div>
+
+<div class="row">
+  <label for="native">Native select (state)</label>
+  <select id="native" name="state"><option value="">--</option><option>AL</option><option>IL</option></select>
+</div>
+
+<script>
+  // 1. click-to-toggle
+  const dd1 = document.getElementById('dd1'), list1 = document.getElementById('dd1-list');
+  const toggle1 = open => { list1.hidden = !open; dd1.setAttribute('aria-expanded', String(open)); };
+  dd1.addEventListener('click', () => toggle1(list1.hidden));
+  list1.addEventListener('click', e => { dd1.textContent = e.target.textContent; dd1.dataset.selected = e.target.dataset.value; toggle1(false); });
+
+  // 2. mousedown-open, portalled menu, options selected on mouseup
+  const dd2 = document.getElementById('dd2');
+  let menu2 = null;
+  const close2 = () => { menu2?.remove(); menu2 = null; dd2.setAttribute('aria-expanded', 'false'); };
+  dd2.addEventListener('mousedown', () => {
+    if (menu2) return close2();
+    menu2 = document.createElement('div');
+    menu2.className = 'menu'; menu2.setAttribute('role', 'listbox');
+    const r = dd2.getBoundingClientRect();
+    menu2.style.cssText = `top:${r.bottom + scrollY}px;left:${r.left + scrollX}px`;
+    for (const c of ['Canada', 'Mexico', 'United States']) {
+      const o = document.createElement('div');
+      o.setAttribute('role', 'option'); o.textContent = c;
+      o.addEventListener('mouseup', () => { dd2.textContent = c; document.getElementById('dd2-value').value = c; close2(); });
+      menu2.append(o);
+    }
+    document.body.append(menu2);
+    dd2.setAttribute('aria-expanded', 'true');
+  });
+
+  // 3. role-less divs
+  const dd3 = document.getElementById('dd3'), list3 = document.getElementById('dd3-list');
+  dd3.addEventListener('click', () => { list3.hidden = !list3.hidden; });
+  list3.addEventListener('click', e => { dd3.textContent = e.target.textContent; list3.hidden = true; });
+
+  // 4. searchable
+  const dd4 = document.getElementById('dd4'), list4 = document.getElementById('dd4-list');
+  const countries = ['Canada', 'Mexico', 'United Kingdom', 'United States'];
+  dd4.addEventListener('input', () => {
+    const q = dd4.value.toLowerCase();
+    list4.replaceChildren(...(q ? countries.filter(c => c.toLowerCase().includes(q)) : []).map(c => {
+      const li = document.createElement('li'); li.setAttribute('role', 'option'); li.textContent = c; return li;
+    }));
+    list4.hidden = !list4.children.length;
+    dd4.setAttribute('aria-expanded', String(!list4.hidden));
+  });
+  list4.addEventListener('mousedown', e => { dd4.value = e.target.textContent; dd4.dataset.selected = e.target.textContent; list4.hidden = true; dd4.setAttribute('aria-expanded', 'false'); });
+</script>
