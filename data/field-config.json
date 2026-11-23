@@ -77,7 +77,8 @@
       { "attr": "autocomplete", "pattern": "address-level1" },
       { "attr": "name",         "pattern": "\\bstate\\b|province|region" },
       { "attr": "id",           "pattern": "\\bstate\\b|province|region" },
-      { "attr": "placeholder",  "pattern": "state|province|region" }
+      { "attr": "placeholder",  "pattern": "state|province|region" },
+      { "attr": "label",        "pattern": "\\bstate\\b|province|region" }
     ]
   },
   {
@@ -95,7 +96,8 @@
       { "attr": "autocomplete", "pattern": "^country" },
       { "attr": "name",         "pattern": "\\bcountry\\b" },
       { "attr": "id",           "pattern": "\\bcountry\\b" },
-      { "attr": "placeholder",  "pattern": "country" }
+      { "attr": "placeholder",  "pattern": "country" },
+      { "attr": "label",        "pattern": "\\bcountry\\b" }
     ]
   },
   {
@@ -168,6 +170,12 @@
     "dataKey": "radioIndex",
     "matchers": [
       { "attr": "type", "pattern": "^radio$" }
+    ]
+  },
+  {
+    "dataKey": "dropdownIndex",
+    "matchers": [
+      { "attr": "type", "pattern": "^custom-dropdown$" }
     ]
   }
 ]

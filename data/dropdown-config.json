@@ -1,0 +1,14 @@
+{
+  "triggerSelectors": [
+    "[role=\"combobox\"]",
+    "[aria-haspopup=\"listbox\"]"
+  ],
+  "optionSelectors": [
+    "[role=\"option\"]",
+    "[role=\"menuitemradio\"]",
+    "[class*=\"option\" i]",
+    "[data-value]",
+    "li"
+  ],
+  "openTimeoutMs": 1000
+}
